@@ -14,14 +14,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
  */
 class AsyncReplace {
     constructor(inputString) {
-        if (inputString == null) {
-            throw new TypeError("inputString must not be null or undefined");
-        }
-        if (typeof inputString !== "string") {
-            throw new TypeError("inputString must be a string");
-        }
-        if (inputString === "") {
-            throw new TypeError("inputString cannot be an empty string");
+        if (!inputString) {
+            throw new TypeError("inputString must not be empty or undefined");
         }
         this.inputString = inputString;
     }

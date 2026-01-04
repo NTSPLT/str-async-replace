@@ -103,12 +103,13 @@ class AsyncReplace {
                 const resolved = yield replaceValue;
                 return this.resolveReplaceValue(resolved, match, inputString, currentReplacement);
             }
-            else if (typeof replaceValue === "function") {
+            if (typeof replaceValue === "function") {
                 if (match && (typeof match[0] === "string" || typeof match.index === "number")) {
                     return replaceValue(match[0], match.index, ...match.slice(1), inputString, currentReplacement);
                 }
+                return String(replaceValue);
             }
-            else if (typeof replaceValue.toString === "function") {
+            if (typeof replaceValue === "object" && typeof replaceValue.toString === "function") {
                 return replaceValue.toString();
             }
             return String(replaceValue);

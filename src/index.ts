@@ -114,7 +114,9 @@ class AsyncReplace {
     if (replaceValue instanceof Promise) {
       const resolved = await replaceValue;
       return this.resolveReplaceValue(resolved, match, inputString, currentReplacement);
-    } else if (typeof replaceValue === "function") {
+    }
+    
+    if (typeof replaceValue === "function") {
       if (match && (typeof match[0] === "string" || typeof match.index === "number")) {
         return replaceValue(
           match[0],
@@ -124,9 +126,13 @@ class AsyncReplace {
           currentReplacement
         );
       }
-    } else if (typeof replaceValue.toString === "function") {
+      return String(replaceValue);
+    }
+    
+    if (typeof replaceValue === "object" && typeof replaceValue.toString === "function") {
       return replaceValue.toString();
     }
+    
     return String(replaceValue);
   }
 

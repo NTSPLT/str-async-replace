@@ -10,6 +10,45 @@ declare class AsyncReplace {
     private inputString;
     constructor(inputString: string);
     /**
+     * Validates the search value parameter
+     * @private
+     * @param {string | RegExp} searchValue - The value to validate
+     * @throws {TypeError} - If searchValue is invalid
+     */
+    private validateSearchValue;
+    /**
+     * Validates the replace limit parameter
+     * @private
+     * @param {number} replaceLimit - The limit to validate
+     * @throws {TypeError} - If replaceLimit is invalid
+     */
+    private validateReplaceLimit;
+    /**
+     * Validates the replace value parameter
+     * @private
+     * @param {any} replaceValue - The value to validate
+     * @throws {TypeError} - If replaceValue is invalid
+     */
+    private validateReplaceValue;
+    /**
+     * Creates a regex from a search value
+     * @private
+     * @param {string | RegExp} searchValue - The value to convert to regex
+     * @returns {RegExp} - The constructed regex
+     * @throws {TypeError} - If the regex is invalid
+     */
+    private createRegex;
+    /**
+     * Resolves the replacement value (handles functions, promises, and strings)
+     * @private
+     * @param {any} replaceValue - The replacement value
+     * @param {RegExpExecArray | null} match - The regex match
+     * @param {string} inputString - The input string
+     * @param {number} currentReplacement - The current replacement count
+     * @returns {Promise<string>} - The resolved replacement string
+     */
+    private resolveReplaceValue;
+    /**
      * Asynchronously, replace one or more occurrences of the searchValue in the input string with the specified replaceValue.
      * @async
      * @param {string|RegExp} searchValue - The value to search for in the input string. Can be a string or regular expression.
@@ -34,6 +73,15 @@ declare class AsyncReplace {
     replaceAll(searchValue: string | RegExp, replaceValue: string | ((...args: any[]) => Promise<string>) | {
         toString: () => string;
     }): Promise<AsyncReplace>;
+    /**
+     * Helper method to perform multiple replacements with a specified replacement method
+     * @private
+     * @param {Array} replacements - Array of replacement objects
+     * @param {Function} replacementMethod - The method to use (replace or replaceAll)
+     * @returns {Promise<AsyncReplace>} - A new AsyncReplace instance with the replacements made
+     * @throws {TypeError} - If parameters are invalid
+     */
+    private performMultipleReplacements;
     /**
      * Asynchronously, replaces multiple substrings or regular expressions in the string with their corresponding replacements.
      * @async

@@ -21,22 +21,22 @@ The `AsyncReplace` class provides asynchronous string replacement methods. It al
 - Creates an instance of `AsyncReplace`.
 - Parameters:
   - `inputString` (string): The input string to perform replacements on.
-- Throws a `TypeError` if `inputString` is null, undefined, an empty string, or not a string.
+- Throws a `TypeError` if `inputString` is not a non-empty string.
 
 ## Method: replace
 
-### `async replace(searchValue: string | RegExp, replaceValue: string | ((substring: string, ...args: any[]) => Promise<string> | string), replaceLimit: number = 1): Promise<AsyncReplace>`
+### `async replace(searchValue: string | RegExp, replaceValue: string | ((match: string, ...args: any[]) => Promise<string> | string), replaceLimit: number = 1): Promise<AsyncReplace>`
 
 - Asynchronously replaces one or more occurrences of the `searchValue` in the input string with the specified `replaceValue`.
 - Parameters:
   - `searchValue` (string | RegExp): The value to search for in the input string. Can be a string or regular expression.
-  - `replaceValue` (string | ((substring: string, ...args: any[]) => Promise&lt;string&gt; | string)): The value to replace the search value with. Can be a string, function, object with a `toString` method, or an async function.
+  - `replaceValue` (string | ((match: string, ...args: any[]) => Promise&lt;string&gt; | string)): The value to replace the search value with. Can be a string, function, object with a `toString` method, or an async function.
   - `replaceLimit` (number, optional): The maximum number of replacements to make. Must be a positive integer greater than zero. Defaults to 1.
 - Returns a `Promise<AsyncReplace>`: A new `AsyncReplace` instance with the replacements made.
 - Throws a `TypeError` if:
   - `searchValue` is null, undefined, not a string, or not a regular expression.
   - `replaceLimit` is not a positive integer greater than zero.
-  - `replaceValue` is null, an empty string, not a string, not a function, not an object with a `toString` method, or not an async function.
+  - `replaceValue` is null, not a string, not a function, not an object with a `toString` method, or not an async function.
 
 #### Example: Simulating Delay in Replace
 
@@ -61,16 +61,16 @@ const asyncReplacer = new AsyncReplace(inputText);
 
 ## Method: replaceAll
 
-### `async replaceAll(searchValue: string | RegExp, replaceValue: string | ((substring: string, ...args: any[]) => Promise<string> | string)): Promise<AsyncReplace>`
+### `async replaceAll(searchValue: string | RegExp, replaceValue: string | ((match: string, ...args: any[]) => Promise<string> | string)): Promise<AsyncReplace>`
 
 - Asynchronously replaces all instances of the `searchValue` in the input string with the `replaceValue` provided.
 - Parameters:
   - `searchValue` (string | RegExp): The value to search for in the input string. Can be a string or regular expression.
-  - `replaceValue` (string | ((substring: string, ...args: any[]) => Promise&lt;string&gt; | string)): The value to replace the search value with. Can be a string, function, object with a `toString` method, or an async function.
+  - `replaceValue` (string | ((match: string, ...args: any[]) => Promise&lt;string&gt; | string)): The value to replace the search value with. Can be a string, function, object with a `toString` method, or an async function.
 - Returns a `Promise<AsyncReplace>`: A new `AsyncReplace` instance with the replacements made.
 - Throws a `TypeError` if:
   - `searchValue` is null, undefined, not a string, or not a regular expression.
-  - `replaceValue` is null, an empty string, not a string, not a function, not an object with a `toString` method, or not an async function.
+  - `replaceValue` is null, not a string, not a function, not an object with a `toString` method, or not an async function.
 
 #### Example: Simulating Delay in ReplaceAll
 
@@ -95,7 +95,7 @@ const asyncReplacer = new AsyncReplace(inputText);
 
 ## Method: replaceMany
 
-### `async replaceMany(replacements: { search: string | RegExp, replace: string | ((substring: string, ...args: any[]) => Promise<string> | string) }[]): Promise<AsyncReplace>`
+### `async replaceMany(replacements: { search: string | RegExp, replace: string | ((match: string, ...args: any[]) => Promise<string> | string) }[]): Promise<AsyncReplace>`
 
 - Asynchronously replaces multiple substrings or regular expressions in the string with their corresponding replacements.
 - Parameters:
@@ -133,7 +133,7 @@ const asyncReplacer = new AsyncReplace(inputText);
 
 ## Method: replaceAllMany
 
-### `async replaceAllMany(replacements: { search: string | RegExp, replace: string | ((substring: string, ...args: any[]) => Promise<string> | string) }[]): Promise<AsyncReplace>`
+### `async replaceAllMany(replacements: { search: string | RegExp, replace: string | ((match: string, ...args: any[]) => Promise<string> | string) }[]): Promise<AsyncReplace>`
 
 - Asynchronously replaces multiple substrings or regular expressions in the string with their corresponding replacements using the `replaceAll` method.
 - Parameters:

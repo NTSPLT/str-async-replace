@@ -10,6 +10,10 @@ describe("new AsyncReplace", () => {
     expect(() => new AsyncReplace("")).toThrow(TypeError);
   });
 
+  it("should throw an error when constructed with non-string truthy value", () => {
+    expect(() => new AsyncReplace({})).toThrow(TypeError);
+  });
+
   describe("replace()", () => {
     it("should throw an error when replace is called with null or undefined searchValue", async () => {
       const asyncReplace = new AsyncReplace("hello world");
@@ -156,5 +160,29 @@ describe("new AsyncReplace", () => {
         ])
       ).rejects.toThrow(TypeError);
     });
+    test("should allow empty string replacement values", async () => {
+      const asyncReplace = new AsyncReplace("foo bar baz");
+
+      const result = await asyncReplace.replaceMany([
+        { search: "foo", replace: "" },
+        { search: "bar", replace: "" },
+      ]);
+
+      expect(result.toString()).toBe("  baz");
+    });
+
   });
+  describe("replaceAllMany()", () => {
+    test("should allow empty string replacement values", async () => {
+      const asyncReplace = new AsyncReplace("foo foo bar");
+
+      const result = await asyncReplace.replaceAllMany([
+        { search: "foo", replace: "" },
+        { search: "bar", replace: "" },
+      ]);
+
+      expect(result.toString()).toBe("  ");
+    });
+  });
+
 });

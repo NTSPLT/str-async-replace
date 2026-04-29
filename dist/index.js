@@ -14,14 +14,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
  */
 class AsyncReplace {
     constructor(inputString) {
-        if (inputString == null) {
-            throw new TypeError("inputString must not be null or undefined");
-        }
-        if (typeof inputString !== "string") {
-            throw new TypeError("inputString must be a string");
-        }
-        if (inputString === "") {
-            throw new TypeError("inputString cannot be an empty string");
+        if (typeof inputString !== "string" || inputString.length === 0) {
+            throw new TypeError("inputString must be a non-empty string");
         }
         this.inputString = inputString;
     }
@@ -29,11 +23,11 @@ class AsyncReplace {
      * Asynchronously, replace one or more occurrences of the searchValue in the input string with the specified replaceValue.
      * @async
      * @param {string|RegExp} searchValue - The value to search for in the input string. Can be a string or regular expression.
-     * @param {string|((substring: string, ...args: any[]) => string)|AsyncFunction|Promise} replaceValue - The value to replace the search value with. Can be a string, function, object with a toString method, or an async function.
+     * @param {string|((match: string, ...args: any[]) => string)|AsyncFunction|Promise} replaceValue - The value to replace the search value with. Can be a string, function, object with a toString method, or an async function.
      * @param {number} [replaceLimit=1] - The maximum number of replacements to make. Must be a positive integer greater than zero.
      * @returns {Promise<AsyncReplace>} - A new AsyncReplace instance with the replacements made.
      * @throws {TypeError} - Throws an error if searchValue is null, undefined, not a string or regular expression, or if replaceLimit is not a positive integer greater than zero.
-     * Throws an error if replaceValue is null, an empty string, not a string, function, object with a toString method, or an async function.
+     * Throws an error if replaceValue is null, not a string, function, object with a toString method, or an async function.
      */
     replace(searchValue, replaceValue, replaceLimit = 1) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -49,7 +43,6 @@ class AsyncReplace {
                 throw new TypeError("replaceLimit must be a positive integer greater than zero");
             }
             if (replaceValue == null ||
-                replaceValue === "" ||
                 (typeof replaceValue !== "string" &&
                     typeof replaceValue !== "function" &&
                     (typeof replaceValue !== "object" ||
@@ -114,10 +107,10 @@ class AsyncReplace {
      * Asynchronously, replace all instances of the searchValue in the input string with the replaceValue provided.
      * @async
      * @param {string|RegExp} searchValue - The value to search for in the input string. Can be a string or regular expression.
-     * @param {string|((substring: string, ...args: any[]) => string)|AsyncFunction|Promise} replaceValue - The value to replace the search value with. Can be a string, function, object with a toString method, or an async function.
+     * @param {string|((match: string, ...args: any[]) => string)|AsyncFunction|Promise} replaceValue - The value to replace the search value with. Can be a string, function, object with a toString method, or an async function.
      * @returns {Promise<AsyncReplace>} - A new AsyncReplace instance with the replacements made.
      * @throws {TypeError} - Throws an error if searchValue is null, undefined, not a string or regular expression.
-     * Throws an error if replaceValue is null, an empty string, not a string, function, object with a toString method, or an async function.
+     * Throws an error if replaceValue is null, not a string, function, object with a toString method, or an async function.
      */
     replaceAll(searchValue, replaceValue) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -127,7 +120,7 @@ class AsyncReplace {
     /**
      * Asynchronously, replaces multiple substrings or regular expressions in the string with their corresponding replacements.
      * @async
-     * @param {...{search: string|RegExp, replace: string|((substring: string, ...args: any[]) => string)|AsyncFunction|Promise}} replacements - An array of objects containing the search string or regular expression, and its corresponding replacement string or function to be executed.
+     * @param {...{search: string|RegExp, replace: string|((match: string, ...args: any[]) => string)|AsyncFunction|Promise}} replacements - An array of objects containing the search string or regular expression, and its corresponding replacement string or function to be executed.
      * @returns {Promise<AsyncReplace>} - A new AsyncReplace instance with the replacements made.
      * @throws {TypeError} - If the replacements parameter is not an array of objects or if any search or replace values are undefined or null.
      */
@@ -138,7 +131,7 @@ class AsyncReplace {
             }
             let newString = new AsyncReplace(this.inputString);
             for (const { search, replace } of replacements) {
-                if (!search || !replace) {
+                if (search == null || replace == null) {
                     throw new TypeError("The search and replace values cannot be undefined or null.");
                 }
                 newString = yield newString.replace(search, replace);
@@ -149,7 +142,7 @@ class AsyncReplace {
     /**
      * Asynchronously, replaces multiple substrings or regular expressions in the string with their corresponding replacements.
      * @async
-     * @param {...{search: string|RegExp, replace: string|((substring: string, ...args: any[]) => string)|AsyncFunction|Promise}} replacements - An array of objects containing the search string or regular expression, and its corresponding replacement string or function to be executed.
+     * @param {...{search: string|RegExp, replace: string|((match: string, ...args: any[]) => string)|AsyncFunction|Promise}} replacements - An array of objects containing the search string or regular expression, and its corresponding replacement string or function to be executed.
      * @returns {Promise<AsyncReplace>} - A new AsyncReplace instance with the replacements made.
      * @throws {TypeError} - If the replacements parameter is not an array of objects or if any search or replace values are undefined or null.
      */
@@ -160,7 +153,7 @@ class AsyncReplace {
             }
             let newString = new AsyncReplace(this.inputString);
             for (const { search, replace } of replacements) {
-                if (!search || !replace) {
+                if (search == null || replace == null) {
                     throw new TypeError("The search and replace values cannot be undefined or null.");
                 }
                 newString = yield newString.replaceAll(search, replace);
